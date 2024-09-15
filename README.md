@@ -8,7 +8,7 @@ de la Universidad de la Frontera.
 ### Este Proyecto esta realizado por:
 
 * Camilo Cifuentes
-* Benajamin Martinez
+* Benjamin Martinez
 * Daniela Díaz
 * Eduardo Huidobro
 
