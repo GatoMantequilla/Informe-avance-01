@@ -11,12 +11,11 @@ public class Receta {
         this.ingredientes = ingredientes;
     }
 
-    // Método para obtener el nombre del plato/receta
+
     public String getNombre() {
         return nombre;
     }
 
-    // Método para mostrar los ingredientes de la receta
     public void mostrarIngredientes() {
         System.out.println("Ingredientes de " + nombre + ":");
         for (Ingrediente ingrediente : ingredientes) {
