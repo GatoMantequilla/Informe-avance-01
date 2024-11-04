@@ -1,24 +1,65 @@
 package org.example;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RecetaTest {
+public class RecetaTest {
 
-    @Test
-    void getNombre() {
+    private Receta receta;
+
+    @BeforeEach
+    void setUp() {
+        receta = new Receta("Pasta", new ArrayList<>());
     }
 
     @Test
-    void mostrarIngredientes() {
+    void testAgregarIngrediente() {
+
+        Ingrediente tomate = new Ingrediente("Tomate", 2, "unidades");
+        receta.agregarIngrediente(tomate);
+        assertTrue(receta.getIngredientesList().contains(tomate), "El ingrediente Tomate debería estar en la receta");
     }
 
     @Test
-    void verificarDisponibilidad() {
+    void testEliminarIngrediente() {
+        Ingrediente ajo = new Ingrediente("Ajo", 1, "cabeza");
+        receta.agregarIngrediente(ajo);
+        boolean eliminado = receta.eliminarIngrediente("Ajo");
+
+        assertTrue(eliminado, "El ingrediente Ajo debería haber sido eliminado de la receta");
+        assertFalse(receta.getIngredientesList().contains(ajo), "La receta no debería contener Ajo");
     }
 
     @Test
-    void getIngredientes() {
+    void testFromCSV() {
+        String ingredientesCSV = "Tomate-2-unidades;Ajo-1-cabeza;Pasta-200-gramos";
+        Receta recetaDesdeCSV = Receta.fromCSV("Salsa", ingredientesCSV);
+        assertEquals("Salsa", recetaDesdeCSV.getNombre(), "El nombre de la receta debería ser 'Salsa'");
+        assertEquals(3, recetaDesdeCSV.getIngredientesList().size(), "La receta debería tener 3 ingredientes");
+    }
+
+    @Test
+    void testMostrarIngredientes() {
+        receta.agregarIngrediente(new Ingrediente("Pasta", 200, "gramos"));
+        receta.agregarIngrediente(new Ingrediente("Salsa", 100, "ml"));
+        
+        receta.mostrarIngredientes();
+    }
+
+    @Test
+    void testSetIngredientes() {
+        ArrayList<Ingrediente> ingredientes = new ArrayList<>();
+        ingredientes.add(new Ingrediente("Queso", 50, "gramos"));
+        ingredientes.add(new Ingrediente("Tomate", 1, "unidad"));
+
+        receta.setIngredientes(ingredientes);
+
+
+
+        assertEquals(ingredientes, receta.getIngredientesList(), "Los ingredientes deberian coincidir");
     }
 }

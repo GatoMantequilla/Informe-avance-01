@@ -11,37 +11,72 @@ public class Receta {
         this.ingredientes = ingredientes;
     }
 
-    // Método para obtener el nombre del plato/receta
     public String getNombre() {
         return nombre;
     }
 
-    // Método para mostrar los ingredientes de la receta
-    public void mostrarIngredientes() {
-        System.out.println("Ingredientes de " + nombre + ":");
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setIngredientes(ArrayList<Ingrediente> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public ArrayList<Ingrediente> getIngredientesList() {
+        return ingredientes;
+    }
+
+    public void agregarIngrediente(Ingrediente ingrediente) {
+        ingredientes.add(ingrediente);
+    }
+
+    public boolean eliminarIngrediente(String nombreIngrediente) {
+        return ingredientes.removeIf(ingrediente -> ingrediente.getNombre().equalsIgnoreCase(nombreIngrediente));
+    }
+
+    public String getIngredientesCSV() {
+        StringBuilder ingredientesCSV = new StringBuilder();
         for (Ingrediente ingrediente : ingredientes) {
-            System.out.println(ingrediente.getNombre() + " - " + ingrediente.getCantidad() + " " + ingrediente.getUnidad());
+            ingredientesCSV.append(ingrediente.getNombre()).append("-")
+                .append(ingrediente.getCantidad()).append("-")
+                .append(ingrediente.getUnidad()).append(";");
         }
+        return ingredientesCSV.toString().replaceAll(";$", "");
     }
 
-    public boolean verificarDisponibilidad(ArrayList<Ingrediente> inventario) {
-        for (Ingrediente ingredienteReceta : ingredientes) {
-            boolean encontrado = false;
-            for (Ingrediente ingredienteInventario : inventario) {
-                if (ingredienteReceta.getNombre().equalsIgnoreCase(ingredienteInventario.getNombre()) &&
-                        ingredienteReceta.getCantidad() <= ingredienteInventario.getCantidad()) {
-                    encontrado = true;
-                    break;
-                }
-            }
-            if (!encontrado) {
-                return false;
+    public static Receta fromCSV(String nombre, String ingredientesCSV) {
+        ArrayList<Ingrediente> ingredientes = new ArrayList<>();
+        String[] items = ingredientesCSV.split(";");
+        for (String item : items) {
+            String[] campos = item.split("-");
+            if (campos.length == 3) {
+                String nombreIngrediente = campos[0];
+                double cantidad = Double.parseDouble(campos[1]);
+                String unidad = campos[2];
+                ingredientes.add(new Ingrediente(nombreIngrediente, cantidad, unidad));
             }
         }
-        return true;
+        return new Receta(nombre, ingredientes);
     }
 
-    public Ingrediente[] getIngredientes() {
-        return ingredientes.toArray(new Ingrediente[0]);
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Receta: ").append(nombre).append("\n");
+        sb.append("Ingredientes:\n");
+        for (Ingrediente ingrediente : ingredientes) {
+            sb.append("- ").append(ingrediente.getNombre())
+              .append(": ").append(ingrediente.getCantidad())
+              .append(" ").append(ingrediente.getUnidad()).append("\n");
+        }
+        return sb.toString();
     }
+
+        public void mostrarIngredientes() {
+            System.out.println("Ingredientes de la receta " + nombre + ":");
+            for (Ingrediente ingrediente : ingredientes) {
+                System.out.println("- " + ingrediente.getNombre() + ": " + ingrediente.getCantidad() + " " + ingrediente.getUnidad());
+            }
+        }
 }

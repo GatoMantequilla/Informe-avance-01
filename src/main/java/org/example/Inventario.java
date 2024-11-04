@@ -18,11 +18,10 @@ public class Inventario {
             inventario.put(nombre, ingrediente);
         }
     }
-
     public boolean verificarDisponibilidad(Receta receta) {
-        for (Ingrediente ingrediente : receta.getIngredientes()) {
-            if (!inventario.containsKey(ingrediente.getNombre()) ||
-                    inventario.get(ingrediente.getNombre()).getCantidad() < ingrediente.getCantidad()) {
+        for (Ingrediente ingredienteReceta : receta.getIngredientesList()) {
+            Ingrediente ingredienteInventario = inventario.get(ingredienteReceta.getNombre());
+            if (ingredienteInventario == null || ingredienteInventario.getCantidad() < ingredienteReceta.getCantidad()) {
                 return false;
             }
         }
@@ -31,10 +30,11 @@ public class Inventario {
 
     public void utilizarIngredientes(Receta receta) {
         if (verificarDisponibilidad(receta)) {
-            for (Ingrediente ingrediente : receta.getIngredientes()) {
+            for (Ingrediente ingrediente : receta.getIngredientesList()) {
                 Ingrediente enInventario = inventario.get(ingrediente.getNombre());
                 enInventario.setCantidad(enInventario.getCantidad() - ingrediente.getCantidad());
             }
+            System.out.println("Ingredientes utilizados para preparar " + receta.getNombre());
         } else {
             System.out.println("No hay suficientes ingredientes para preparar " + receta.getNombre());
         }
@@ -45,5 +45,26 @@ public class Inventario {
         for (Ingrediente ingrediente : inventario.values()) {
             System.out.println(ingrediente);
         }
+    }
+
+    public Ingrediente buscarIngrediente(String nombre) {
+        return inventario.getOrDefault(nombre, null);
+    }
+
+    public boolean eliminarIngrediente(String nombre) {
+        if (inventario.containsKey(nombre)) {
+            inventario.remove(nombre);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean actualizarCantidadIngrediente(String nombre, double nuevaCantidad) {
+        if (inventario.containsKey(nombre)) {
+            Ingrediente ingrediente = inventario.get(nombre);
+            ingrediente.setCantidad(nuevaCantidad);
+            return true;
+        }
+        return false;
     }
 }
