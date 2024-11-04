@@ -32,7 +32,8 @@ public class InventarioChefTest {
         nuevosIngredientes.add(new Ingrediente("Cebolla", 1, "unidad"));
         boolean editado = inventarioChef.editarReceta("Salsa de Tomate", nuevosIngredientes);
         assertTrue(editado);
-        assertEquals(nuevosIngredientes, receta.getIngredientesList());
+        assertEquals(nuevosIngredientes, receta.getIngredientes());
+
     }
 
     @Test

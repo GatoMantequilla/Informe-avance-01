@@ -19,7 +19,7 @@ public class Inventario {
         }
     }
     public boolean verificarDisponibilidad(Receta receta) {
-        for (Ingrediente ingredienteReceta : receta.getIngredientesList()) {
+        for (Ingrediente ingredienteReceta : receta.getIngredientes()) { 
             Ingrediente ingredienteInventario = inventario.get(ingredienteReceta.getNombre());
             if (ingredienteInventario == null || ingredienteInventario.getCantidad() < ingredienteReceta.getCantidad()) {
                 return false;
@@ -27,10 +27,11 @@ public class Inventario {
         }
         return true;
     }
+    
 
     public void utilizarIngredientes(Receta receta) {
         if (verificarDisponibilidad(receta)) {
-            for (Ingrediente ingrediente : receta.getIngredientesList()) {
+            for (Ingrediente ingrediente : receta.getIngredientes()) {
                 Ingrediente enInventario = inventario.get(ingrediente.getNombre());
                 enInventario.setCantidad(enInventario.getCantidad() - ingrediente.getCantidad());
             }

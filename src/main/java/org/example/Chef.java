@@ -64,7 +64,7 @@ public class Chef extends Usuario {
     
     private void mostrarIngredientesReceta(Receta receta) {
         System.out.println("Ingredientes de la receta " + receta.getNombre() + ":");
-        for (Ingrediente ingrediente : receta.getIngredientesList()) {
+        for (Ingrediente ingrediente : receta.getIngredientes()) {
             System.out.println("- " + ingrediente.getNombre() + ": " + ingrediente.getCantidad() + " " + ingrediente.getUnidad());
         }
     }

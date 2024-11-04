@@ -21,7 +21,7 @@ public class RecetaTest {
 
         Ingrediente tomate = new Ingrediente("Tomate", 2, "unidades");
         receta.agregarIngrediente(tomate);
-        assertTrue(receta.getIngredientesList().contains(tomate), "El ingrediente Tomate debería estar en la receta");
+        assertTrue(receta.getIngredientes().contains(tomate), "El ingrediente Tomate debería estar en la receta");
     }
 
     @Test
@@ -31,7 +31,7 @@ public class RecetaTest {
         boolean eliminado = receta.eliminarIngrediente("Ajo");
 
         assertTrue(eliminado, "El ingrediente Ajo debería haber sido eliminado de la receta");
-        assertFalse(receta.getIngredientesList().contains(ajo), "La receta no debería contener Ajo");
+        assertFalse(receta.getIngredientes().contains(ajo), "La receta no debería contener Ajo");
     }
 
     @Test
@@ -39,7 +39,7 @@ public class RecetaTest {
         String ingredientesCSV = "Tomate-2-unidades;Ajo-1-cabeza;Pasta-200-gramos";
         Receta recetaDesdeCSV = Receta.fromCSV("Salsa", ingredientesCSV);
         assertEquals("Salsa", recetaDesdeCSV.getNombre(), "El nombre de la receta debería ser 'Salsa'");
-        assertEquals(3, recetaDesdeCSV.getIngredientesList().size(), "La receta debería tener 3 ingredientes");
+        assertEquals(3, recetaDesdeCSV.getIngredientes().size(), "La receta debería tener 3 ingredientes");
     }
 
     @Test
@@ -60,6 +60,6 @@ public class RecetaTest {
 
 
 
-        assertEquals(ingredientes, receta.getIngredientesList(), "Los ingredientes deberian coincidir");
+        assertEquals(ingredientes, receta.getIngredientes(), "Los ingredientes deberian coincidir");
     }
 }

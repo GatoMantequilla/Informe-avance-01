@@ -1,38 +1,26 @@
 package org.example;
 
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Receta {
     private String nombre;
-    private ArrayList<Ingrediente> ingredientes;
+    private ArrayList<Ingrediente> ingredientes = new ArrayList<>(); // Inicialización directa
 
+    // Constructor con parámetros
     public Receta(String nombre, ArrayList<Ingrediente> ingredientes) {
         this.nombre = nombre;
-        this.ingredientes = ingredientes;
+        this.ingredientes = ingredientes != null ? ingredientes : new ArrayList<>();
+    }
+
+    // Constructor sin parámetros para Jackson
+    public Receta() {
+        this.ingredientes = new ArrayList<>(); // Inicialización en el constructor vacío
     }
 
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setIngredientes(ArrayList<Ingrediente> ingredientes) {
-        this.ingredientes = ingredientes;
-    }
-
-    public ArrayList<Ingrediente> getIngredientesList() {
-        return ingredientes;
-    }
-
-    public void agregarIngrediente(Ingrediente ingrediente) {
-        ingredientes.add(ingrediente);
-    }
-
-    public boolean eliminarIngrediente(String nombreIngrediente) {
-        return ingredientes.removeIf(ingrediente -> ingrediente.getNombre().equalsIgnoreCase(nombreIngrediente));
     }
 
     public String getIngredientesCSV() {
@@ -44,6 +32,7 @@ public class Receta {
         }
         return ingredientesCSV.toString().replaceAll(";$", "");
     }
+    
 
     public static Receta fromCSV(String nombre, String ingredientesCSV) {
         ArrayList<Ingrediente> ingredientes = new ArrayList<>();
@@ -59,6 +48,34 @@ public class Receta {
         }
         return new Receta(nombre, ingredientes);
     }
+    
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public ArrayList<Ingrediente> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(ArrayList<Ingrediente> ingredientes) {
+        this.ingredientes = ingredientes != null ? ingredientes : new ArrayList<>();
+    }
+
+    public void agregarIngrediente(Ingrediente ingrediente) {
+        ingredientes.add(ingrediente);
+    }
+
+    public boolean eliminarIngrediente(String nombreIngrediente) {
+        return ingredientes.removeIf(ingrediente -> ingrediente.getNombre().equalsIgnoreCase(nombreIngrediente));
+    }
+
+    public void mostrarIngredientes() {
+        System.out.println("Ingredientes de la receta " + nombre + ":");
+        for (Ingrediente ingrediente : ingredientes) { // Verifica que ingredientes no es null
+            System.out.println("- " + ingrediente.getNombre() + ": " + ingrediente.getCantidad() + " " + ingrediente.getUnidad());
+        }
+    }
 
     @Override
     public String toString() {
@@ -72,11 +89,4 @@ public class Receta {
         }
         return sb.toString();
     }
-
-        public void mostrarIngredientes() {
-            System.out.println("Ingredientes de la receta " + nombre + ":");
-            for (Ingrediente ingrediente : ingredientes) {
-                System.out.println("- " + ingrediente.getNombre() + ": " + ingrediente.getCantidad() + " " + ingrediente.getUnidad());
-            }
-        }
 }
