@@ -1,5 +1,9 @@
 package org.example;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class Ingrediente {
     private String nombre;
     private double cantidad;
@@ -9,6 +13,9 @@ public class Ingrediente {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.unidad = unidad;
+    }
+
+    public Ingrediente() {
     }
 
     public String getNombre() {
@@ -26,4 +33,6 @@ public class Ingrediente {
     public String getUnidad() {
         return unidad;
     }
+
+    
 }
