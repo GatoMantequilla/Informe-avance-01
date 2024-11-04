@@ -1,28 +1,31 @@
 package org.example;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Receta {
     private String nombre;
-    private ArrayList<Ingrediente> ingredientes = new ArrayList<>(); // Inicialización directa
+    private ArrayList<Ingrediente> ingredientes = new ArrayList<>();
 
-    // Constructor con parámetros
+    // Constructor with parameters
     public Receta(String nombre, ArrayList<Ingrediente> ingredientes) {
         this.nombre = nombre;
         this.ingredientes = ingredientes != null ? ingredientes : new ArrayList<>();
     }
 
-    // Constructor sin parámetros para Jackson
+    // No-args constructor for Jackson
     public Receta() {
-        this.ingredientes = new ArrayList<>(); // Inicialización en el constructor vacío
+        this.ingredientes = new ArrayList<>();
     }
 
     public String getNombre() {
         return nombre;
     }
 
+    // This method is used for CSV, not JSON, so we annotate it to ignore in JSON serialization
+    @JsonIgnore
     public String getIngredientesCSV() {
         StringBuilder ingredientesCSV = new StringBuilder();
         for (Ingrediente ingrediente : ingredientes) {
@@ -32,7 +35,6 @@ public class Receta {
         }
         return ingredientesCSV.toString().replaceAll(";$", "");
     }
-    
 
     public static Receta fromCSV(String nombre, String ingredientesCSV) {
         ArrayList<Ingrediente> ingredientes = new ArrayList<>();
@@ -48,7 +50,6 @@ public class Receta {
         }
         return new Receta(nombre, ingredientes);
     }
-    
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -72,7 +73,7 @@ public class Receta {
 
     public void mostrarIngredientes() {
         System.out.println("Ingredientes de la receta " + nombre + ":");
-        for (Ingrediente ingrediente : ingredientes) { // Verifica que ingredientes no es null
+        for (Ingrediente ingrediente : ingredientes) {
             System.out.println("- " + ingrediente.getNombre() + ": " + ingrediente.getCantidad() + " " + ingrediente.getUnidad());
         }
     }

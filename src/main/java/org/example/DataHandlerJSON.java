@@ -1,12 +1,15 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class DataHandlerJSON {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    // Configura el ObjectMapper para habilitar la indentación
+    private static final ObjectMapper objectMapper = new ObjectMapper()
+            .enable(SerializationFeature.INDENT_OUTPUT); // Habilita la indentación para JSON
 
     public static void guardarIngredientes(ArrayList<Ingrediente> ingredientes, String rutaArchivo) throws IOException {
         objectMapper.writeValue(new File(rutaArchivo), ingredientes);

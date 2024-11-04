@@ -1,1 +1,17 @@
-[{"nombre":"Huevos","ingredientesCSV":"sal-1.0-gramo","ingredientesList":[{"nombre":"sal","cantidad":1.0,"unidad":"gramo"}]}]
+[
+    {
+        "nombre": "Pie de limo",
+        "ingredientes": [
+            {
+                "nombre": "limon",
+                "cantidad": 1.0,
+                "unidad": "limon"
+            },
+            {
+                "nombre": "Agua",
+                "cantidad": 100.0,
+                "unidad": "litros"
+            }
+        ]
+    }
+]
