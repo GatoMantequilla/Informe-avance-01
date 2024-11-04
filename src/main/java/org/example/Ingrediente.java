@@ -33,4 +33,6 @@ public class Ingrediente {
     public String getUnidad() {
         return unidad;
     }
+
+    
 }
